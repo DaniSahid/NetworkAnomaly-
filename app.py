@@ -6,27 +6,169 @@ st.set_page_config(page_title="Network Anomaly Explainer", page_icon="🔍", lay
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
-html, body, [class*="css"] { font-family: 'IBM Plex Sans', sans-serif; }
 
+/* ── Base ── */
+html, body, [class*="css"] {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: #050d1a !important;
+    color: #c9d8f0 !important;
+}
+
+/* ── App background ── */
+.stApp {
+    background: linear-gradient(160deg, #050d1a 0%, #0a1628 60%, #061020 100%);
+}
+
+/* ── Title & text ── */
+h1, h2, h3, h4 { color: #7eb8f7 !important; letter-spacing: 0.5px; }
+p, li, label, caption { color: #a8c4e0 !important; }
+.stCaption, small { color: #5a7a9a !important; }
+
+/* ── Divider ── */
+hr { border-color: #1a3a5c !important; }
+
+/* ── Radio buttons ── */
+.stRadio label { color: #a8c4e0 !important; }
+.stRadio [data-baseweb="radio"] div { border-color: #2a5a8a !important; }
+
+/* ── Text input ── */
+.stTextInput input {
+    background: #0a1e35 !important;
+    border: 1px solid #1e4a7a !important;
+    border-radius: 6px !important;
+    color: #c9d8f0 !important;
+    font-family: 'IBM Plex Mono', monospace !important;
+}
+.stTextInput input:focus {
+    border-color: #3a8ae0 !important;
+    box-shadow: 0 0 0 2px rgba(58,138,224,0.2) !important;
+}
+.stTextInput input::placeholder { color: #3a5a7a !important; }
+.stTextInput label { color: #7eb8f7 !important; font-size: 13px !important; }
+
+/* ── Button ── */
+.stButton > button {
+    background: linear-gradient(135deg, #0f3460 0%, #1a5296 100%) !important;
+    color: #e8f4ff !important;
+    border: 1px solid #2a6abf !important;
+    border-radius: 6px !important;
+    font-family: 'IBM Plex Mono', monospace !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    padding: 0.4rem 1.5rem !important;
+    transition: all 0.2s ease !important;
+}
+.stButton > button:hover {
+    background: linear-gradient(135deg, #1a5296 0%, #2a7ad4 100%) !important;
+    border-color: #4a9ae0 !important;
+    box-shadow: 0 0 12px rgba(58,138,224,0.4) !important;
+}
+
+/* ── Expander ── */
+.streamlit-expanderHeader {
+    background: #0a1e35 !important;
+    border: 1px solid #1a3a5c !important;
+    border-radius: 6px !important;
+    color: #7eb8f7 !important;
+    font-size: 13px !important;
+}
+.streamlit-expanderContent {
+    background: #070f1e !important;
+    border: 1px solid #1a3a5c !important;
+    border-top: none !important;
+}
+
+/* ── Info / Warning / Error native boxes ── */
+.stAlert {
+    background: #0a1e35 !important;
+    border-color: #2a6abf !important;
+    color: #a8c4e0 !important;
+}
+
+/* ── Result cards ── */
 .result-danger {
-    background: #1a0a0a; border-left: 5px solid #e53e3e;
-    border-radius: 6px; padding: 14px 18px; margin-bottom: 10px;
-    color: #fed7d7;
+    background: linear-gradient(135deg, #1a0810 0%, #120510 100%);
+    border-left: 4px solid #e53e3e;
+    border-top: 1px solid #3a1020;
+    border-right: 1px solid #3a1020;
+    border-bottom: 1px solid #3a1020;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    color: #fca5a5;
+    box-shadow: 0 0 20px rgba(229,62,62,0.12), inset 0 0 20px rgba(229,62,62,0.04);
 }
 .result-safe {
-    background: #0a1a10; border-left: 5px solid #38a169;
-    border-radius: 6px; padding: 14px 18px; margin-bottom: 10px;
-    color: #c6f6d5;
+    background: linear-gradient(135deg, #081a12 0%, #051210 100%);
+    border-left: 4px solid #22c55e;
+    border-top: 1px solid #103a20;
+    border-right: 1px solid #103a20;
+    border-bottom: 1px solid #103a20;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    color: #86efac;
+    box-shadow: 0 0 20px rgba(34,197,94,0.10), inset 0 0 20px rgba(34,197,94,0.04);
 }
 .result-warning {
-    background: #1a1400; border-left: 5px solid #d69e2e;
-    border-radius: 6px; padding: 14px 18px; margin-bottom: 10px;
-    color: #fefcbf;
+    background: linear-gradient(135deg, #1a1205 0%, #120e03 100%);
+    border-left: 4px solid #f59e0b;
+    border-top: 1px solid #3a2e10;
+    border-right: 1px solid #3a2e10;
+    border-bottom: 1px solid #3a2e10;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    color: #fcd34d;
+    box-shadow: 0 0 20px rgba(245,158,11,0.10), inset 0 0 20px rgba(245,158,11,0.04);
 }
 .result-info {
-    background: #0a0f1a; border-left: 5px solid #3182ce;
-    border-radius: 6px; padding: 14px 18px; margin-bottom: 10px;
-    color: #bee3f8;
+    background: linear-gradient(135deg, #071428 0%, #050e1e 100%);
+    border-left: 4px solid #3b82f6;
+    border-top: 1px solid #1a3a6a;
+    border-right: 1px solid #1a3a6a;
+    border-bottom: 1px solid #1a3a6a;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    color: #93c5fd;
+    box-shadow: 0 0 20px rgba(59,130,246,0.12), inset 0 0 20px rgba(59,130,246,0.04);
+}
+
+/* ── Markdown tables ── */
+table {
+    background: #0a1628 !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+    font-size: 13px !important;
+    font-family: 'IBM Plex Mono', monospace !important;
+}
+th {
+    background: #0f2040 !important;
+    color: #7eb8f7 !important;
+    padding: 8px 12px !important;
+    border: 1px solid #1a3a5c !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 1px !important;
+}
+td {
+    color: #a8c4e0 !important;
+    padding: 7px 12px !important;
+    border: 1px solid #122030 !important;
+}
+tr:nth-child(even) td { background: #071020 !important; }
+tr:hover td { background: #0f2540 !important; }
+
+/* ── Code inline ── */
+code {
+    background: #0f2040 !important;
+    color: #7eb8f7 !important;
+    border: 1px solid #1a3a5c !important;
+    border-radius: 3px !important;
+    padding: 1px 5px !important;
+    font-family: 'IBM Plex Mono', monospace !important;
+    font-size: 12px !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -96,7 +238,7 @@ PRIVATE_RANGES = [
     ("240.0.0.0",   "255.255.255.255", "Reserved/Broadcast", "warning", "Reserved by IANA. Seeing this as a destination may indicate scanning."),
 ]
 
-STATUS_COLOR = {"normal": "#38a169", "warning": "#d69e2e", "danger": "#e53e3e"}
+STATUS_COLOR = {"normal": "#22c55e", "warning": "#f59e0b", "danger": "#e53e3e"}
 STATUS_BOX   = {"normal": "result-safe", "warning": "result-warning", "danger": "result-danger"}
 STATUS_LABEL = {"normal": "Normal", "warning": "Suspicious", "danger": "High Risk"}
 
@@ -131,12 +273,29 @@ def classify_port(port: int):
 
 # ── UI ────────────────────────────────────────────────────────────────────────────
 
-st.title("Network Anomaly Explainer")
-st.markdown(
-    "Analyse an IP address or port number to understand what it does, "
-    "whether it poses a risk, and what attackers commonly use it for."
-)
-st.caption("No data is sent anywhere. All analysis runs locally.")
+st.markdown("""
+<div style="
+    background: linear-gradient(135deg, #0a1e3a 0%, #0d2545 100%);
+    border: 1px solid #1a3a6a;
+    border-radius: 10px;
+    padding: 24px 28px 18px 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 0 40px rgba(59,130,246,0.08);
+">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#3b82f6; letter-spacing:3px; text-transform:uppercase; margin-bottom:6px;">
+        CSC662 — Computer Security · UiTM 2026
+    </div>
+    <h1 style="color:#7eb8f7; font-size:28px; margin:0 0 6px 0; font-family:'IBM Plex Sans',sans-serif; font-weight:700;">
+        Network Anomaly Explainer
+    </h1>
+    <p style="color:#5a8ab0; font-size:14px; margin:0;">
+        Analyse an IP address or port number — understand what it does, whether it poses a risk,
+        and what attackers commonly use it for.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+st.caption("All analysis runs locally. No data is sent anywhere.")
 st.divider()
 
 mode_net = st.radio("What do you want to check?", ["IP Address", "Port Number", "Both"], horizontal=True)
@@ -146,7 +305,7 @@ ip_input   = ""
 port_input = ""
 
 if mode_net in ("IP Address", "Both"):
-    ip_input = st.text_input("IP Address", placeholder="e.g. 192.168.1.1  or  45.33.32.156")
+    ip_input = st.text_input("IP Address", placeholder="e.g. 192.168.1.1  or  192.168.1.1:443")
 
 if mode_net in ("Port Number", "Both"):
     port_input = st.text_input("Port Number", placeholder="e.g. 3389  or  443")
@@ -163,8 +322,13 @@ if net_btn:
             # Auto-strip port if user pastes from netstat e.g. "192.168.1.1:443"
             if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+$', ip):
                 ip, detected_port = ip.rsplit(":", 1)
-                st.info(f"Port `{detected_port}` detected — analysing IP `{ip}` and port separately.")
+                st.markdown(
+                    f'<div class="result-info">Port <code>{detected_port}</code> detected in input — '
+                    f'analysing IP <code>{ip}</code> and port separately.</div>',
+                    unsafe_allow_html=True
+                )
                 port_input = detected_port
+
             ipv4 = re.match(r'^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$', ip)
             if not ipv4 or not all(0 <= int(g) <= 255 for g in ipv4.groups()):
                 st.error(f'"{ip}" is not a valid IPv4 address.')
@@ -174,10 +338,11 @@ if net_btn:
                     label, status, desc = result
                     st.markdown(
                         f'<div class="{STATUS_BOX[status]}">'
-                        f'<strong>{ip}</strong> — '
-                        f'<span style="color:{STATUS_COLOR[status]};font-weight:700;">{STATUS_LABEL[status]}</span>'
-                        f' &nbsp;·&nbsp; {label}<br>'
-                        f'<span style="font-size:14px;">{desc}</span>'
+                        f'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:15px;font-weight:600;">{ip}</span>'
+                        f'&nbsp;&nbsp;<span style="color:{STATUS_COLOR[status]};font-weight:700;font-size:13px;">'
+                        f'[ {STATUS_LABEL[status]} ]</span>&nbsp;&nbsp;'
+                        f'<span style="font-size:13px;opacity:0.8;">{label}</span><br>'
+                        f'<span style="font-size:13px;margin-top:4px;display:block;">{desc}</span>'
                         f'</div>', unsafe_allow_html=True
                     )
                     if label == "Public IP":
@@ -190,14 +355,15 @@ if net_btn:
         # ── Port result ───────────────────────────────────────────────────────
         if port_input:
             try:
-                port = int(port_input.strip())
+                port = int(str(port_input).strip())
                 name, status, desc = classify_port(port)
                 st.markdown(
                     f'<div class="{STATUS_BOX[status]}">'
-                    f'<strong>Port {port}</strong> — '
-                    f'<span style="color:{STATUS_COLOR[status]};font-weight:700;">{STATUS_LABEL[status]}</span>'
-                    f' &nbsp;·&nbsp; {name}<br>'
-                    f'<span style="font-size:14px;">{desc}</span>'
+                    f'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:15px;font-weight:600;">:{port}</span>'
+                    f'&nbsp;&nbsp;<span style="color:{STATUS_COLOR[status]};font-weight:700;font-size:13px;">'
+                    f'[ {STATUS_LABEL[status]} ]</span>&nbsp;&nbsp;'
+                    f'<span style="font-size:13px;opacity:0.8;">{name}</span><br>'
+                    f'<span style="font-size:13px;margin-top:4px;display:block;">{desc}</span>'
                     f'</div>', unsafe_allow_html=True
                 )
             except ValueError:
@@ -217,13 +383,11 @@ with st.expander("Private IP ranges — quick reference"):
 
 with st.expander("How to read the results"):
     st.markdown("""
-- **Normal** — expected traffic for a standard service or private network.
-- **Suspicious** — not necessarily malicious, but warrants closer inspection.
-- **High Risk** — commonly exploited by attackers, malware, or ransomware. Investigate immediately if seen unexpectedly.
+- **[ Normal ]** — expected traffic for a standard service or private network.
+- **[ Suspicious ]** — not necessarily malicious, but warrants closer inspection.
+- **[ High Risk ]** — commonly exploited by attackers, malware, or ransomware. Investigate immediately if seen unexpectedly.
 
-**Where to find open ports on your machine:**
-- Windows: `netstat -ano` in Command Prompt
-- macOS/Linux: `ss -tuln` or `netstat -tuln` in Terminal
+**Get real data from your own machine:**
+- Windows: run `netstat -ano` in Command Prompt — copy any `IP:port` entry directly into the IP field above.
+- macOS/Linux: run `ss -tuln` or `netstat -tuln` in Terminal.
 """)
-
-st.caption("CSC662 — Computer Security | UiTM | 2026")

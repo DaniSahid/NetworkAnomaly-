@@ -283,7 +283,7 @@ st.markdown("""
     box-shadow: 0 0 40px rgba(59,130,246,0.08);
 ">
     <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#3b82f6; letter-spacing:3px; text-transform:uppercase; margin-bottom:6px;">
-        CSC662 — Computer Security · UiTM 2026
+        CSC662 - Computer Security · Assignment
     </div>
     <h1 style="color:#7eb8f7; font-size:28px; margin:0 0 6px 0; font-family:'IBM Plex Sans',sans-serif; font-weight:700;">
         Network Anomaly Explainer

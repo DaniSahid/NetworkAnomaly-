@@ -160,6 +160,11 @@ if net_btn:
         # ── IP result ─────────────────────────────────────────────────────────
         if ip_input:
             ip = ip_input.strip()
+            # Auto-strip port if user pastes from netstat e.g. "192.168.1.1:443"
+            if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+$', ip):
+                ip, detected_port = ip.rsplit(":", 1)
+                st.info(f"Port `{detected_port}` detected — analysing IP `{ip}` and port separately.")
+                port_input = detected_port
             ipv4 = re.match(r'^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$', ip)
             if not ipv4 or not all(0 <= int(g) <= 255 for g in ipv4.groups()):
                 st.error(f'"{ip}" is not a valid IPv4 address.')
